@@ -1,5 +1,7 @@
+import { AppError } from '@core/infra/error/app.error';
 import {
   ExecutionContext,
+  HttpStatus,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -13,7 +15,7 @@ export class LocalAuthGuard extends AuthGuard('local') {
 
   handleRequest(err, user) {
     if (err || !user) {
-      throw new UnauthorizedException(err?.message);
+      throw new AppError(`User Unauthorized`, HttpStatus.UNAUTHORIZED);
     }
 
     return user;

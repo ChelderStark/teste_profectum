@@ -47,6 +47,7 @@ export const userSelect: Prisma.usersSelect = {
   code: true,
   name: true,
   email: true,
+  password: true,
   movies_like: true,
 };
 
