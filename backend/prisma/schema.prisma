@@ -7,26 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-type UsersMoviesLike {
-  id Int
+model users {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  code        String
+  name        String
+  email       String
+  password    String
+  movies_like Int[]
+  created_at  DateTime
 }
 
+
 model movies {
-  id                String @id @default(auto()) @map("_id") @db.ObjectId
-  id_               Int    @map("id")
-  likes_count       Int
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  code              Int
+  title             String
   original_language String
   original_title    String
   overview          String
   poster_path       String
-  title             String
-}
-
-model users {
-  id          String          @id @default(auto()) @map("_id") @db.ObjectId
-  email       String
-  id_         String          @map("id")
-  movies_like UsersMoviesLike
-  name        String
-  password    String
+  like_count        Int
 }
