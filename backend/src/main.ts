@@ -8,6 +8,8 @@ import {
 import { ValidationPipe } from '@nestjs/common';
 import { ErrorExceptionFilter } from '@core/infra/error/filters/exception.filters';
 import { PrismaClienteExceptionFilter } from '@core/infra/error/filters/prisma.filters';
+import { AuthModule } from './app/auth/auth.module';
+import { UsersModule } from './app/users/users.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -34,7 +36,7 @@ async function bootstrap() {
     .build();
 
   const options: SwaggerDocumentOptions = {
-    include: [],
+    include: [AuthModule, UsersModule],
   };
 
   const document = SwaggerModule.createDocument(app, config, options);
