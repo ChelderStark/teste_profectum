@@ -29,4 +29,8 @@ export class UsersService {
   async findOneByEmail(email: string): Promise<User> {
     return await this.usersRepository.getOneUserByEmail(email);
   }
+
+  async updateMoviesLike(email: string, movie: number) {
+    return await this.usersRepository.updateMovieLike(email, movie);
+  }
 }
