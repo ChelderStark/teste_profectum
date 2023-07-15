@@ -15,7 +15,6 @@ import { MoviesModule } from './app/movies/movies.module';
     AuthModule,
     MoviesModule,
   ],
-  controllers: [],
   providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
 export class AppModule {}
