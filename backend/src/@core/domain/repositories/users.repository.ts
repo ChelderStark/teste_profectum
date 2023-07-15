@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/@core/infra/database/prisma.service';
 import { User, UserEntity } from '../entities/users.entity';
 import { users } from '@prisma/client';
+import { AppError } from '@core/infra/error/app.error';
 
 @Injectable()
 export class UsersRepository {
@@ -26,7 +27,7 @@ export class UsersRepository {
 
       return data;
     } catch (err) {
-      throw new Error(`Error in 'createEmail' function : ${err}`);
+      throw new AppError(`Error to try create a User`);
     }
   }
 
