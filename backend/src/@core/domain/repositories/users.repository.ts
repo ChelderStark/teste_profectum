@@ -1,6 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/@core/infra/database/prisma.service';
-import { User, UserEntity } from '../entities/users.entity';
+import {
+  ReturnUser,
+  User,
+  UserEntity,
+  userSelect,
+} from '../entities/users.entity';
 import { users } from '@prisma/client';
 import { AppError } from '@core/infra/error/app.error';
 
@@ -15,14 +20,15 @@ export class UsersRepository {
    * @public
    * @async
    * @param {User} user
-   * @returns {Promise<users>}
+   * @returns {Promise<ReturnUser>}
    */
-  public async createUser(user: User): Promise<users> {
+  public async createUser(user: User): Promise<ReturnUser> {
     try {
       const props = new UserEntity(user).create();
 
-      const data = this.prismaClient.users.create({
+      const data = await this.prismaClient.users.create({
         data: props,
+        select: userSelect,
       });
 
       return data;
@@ -31,160 +37,56 @@ export class UsersRepository {
     }
   }
 
-  // /**
-  //  * Get Many emails from BD
-  //  * @date 02/06/2023 - 08:20:55 AM
-  //  *
-  //  * @public
-  //  * @async
-  //  * @constant {pag} number
-  //  * @constant {qtd} number
-  //  * @constant {withDeletedItems} boolean
-  //  * @constant {search} string
-  //  * @returns {Promise<emails>}
-  //  */
-  // public async getEmails(
-  //   pag: number,
-  //   qtd: number,
-  //   withDeletedItems: boolean,
-  //   search: string,
-  // ): Promise<emails[]> {
-  //   try {
-  //     const getPage = (pag - 1 < 0 ? 0 : pag - 1) * qtd;
-  //     if (withDeletedItems) {
-  //       return await this.prismaClient.emails.findMany({
-  //         skip: getPage,
-  //         take: qtd,
-  //         where: { eml_email: { contains: search, mode: 'insensitive' } },
-  //       });
-  //     } else {
-  //       return await this.prismaClient.emails.findMany({
-  //         skip: getPage,
-  //         take: qtd,
-  //         where: {
-  //           eml_deleted_at: null,
-  //           eml_email: { contains: search, mode: 'insensitive' },
-  //         },
-  //       });
-  //     }
-  //   } catch (err) {
-  //     throw new Error(`Error in 'getEmails' function : ${err}`);
-  //   }
-  // }
+  /**
+   * Get Many users from BD
+   * @date 15/07/2023 - 08:20:55 AM
+   *
+   * @public
+   * @async
+   * @constant {pag} number
+   * @constant {qtd} number
+   * @constant {search} string
+   * @returns {Promise<ReturnUser[]>}
+   */
+  public async getUsers(
+    pag: number,
+    qtd: number,
+    search: string,
+  ): Promise<ReturnUser[]> {
+    try {
+      const getPage = (pag - 1 < 0 ? 0 : pag - 1) * qtd;
+      return await this.prismaClient.users.findMany({
+        skip: getPage,
+        take: qtd,
+        where: { email: { contains: search, mode: 'insensitive' } },
+        select: userSelect,
+      });
+    } catch (err) {
+      throw new Error(`Error to retrieve a list of Users`);
+    }
+  }
 
-  // /**
-  //  * Get one Email from BD
-  //  * @date 02/06/2023 - 08:20:55 AM
-  //  *
-  //  * @public
-  //  * @async
-  //  * @param {string} id
-  //  * @returns {Promise<emails>}
-  //  */
-  // public async getOneEmail(id: string): Promise<emails> {
-  //   try {
-  //     const result = await this.prismaClient.emails.findFirst({
-  //       where: { eml_id: id, eml_deleted_at: null },
-  //     });
-  //     if (!result) {
-  //       return null;
-  //     }
-
-  //     return result;
-  //   } catch (err) {
-  //     throw new Error(`Error in 'getOneEmail' function : ${err}`);
-  //   }
-  // }
-
-  // /**
-  //  * Count all Emails from DB
-  //  * @date 02/06/2023 - 08:20:55 AM
-  //  *
-  //  * @public
-  //  * @async
-  //  * @param {boolean} withDeletedItems
-  //  * @param {string} search
-  //  * @returns {Promise<number>}
-  //  */
-  // public async countEmails(
-  //   withDeletedItems: boolean,
-  //   search: string,
-  // ): Promise<number> {
-  //   try {
-  //     if (withDeletedItems) {
-  //       return await this.prismaClient.emails.count({
-  //         where: { eml_email: { contains: search, mode: 'insensitive' } },
-  //       });
-  //     } else {
-  //       return await this.prismaClient.emails.count({
-  //         where: {
-  //           eml_deleted_at: null,
-  //           eml_email: { contains: search, mode: 'insensitive' },
-  //         },
-  //       });
-  //     }
-  //   } catch (err) {
-  //     throw new Error(`Error in 'countEmails' function : ${err}`);
-  //   }
-  // }
-
-  // /**
-  //  * Update Emails in DB
-  //  * @date 02/06/2023 - 08:20:55 AM
-  //  *
-  //  * @public
-  //  * @async
-  //  * @param {string} id
-  //  * @param {Email} email
-  //  * @returns {Promise<emails>}
-  //  */
-  // public async updateEmail(id: string, email: Email): Promise<emails> {
-  //   try {
-  //     const data = await this.prismaClient.emails.update({
-  //       where: { eml_id: id },
-  //       data: {
-  //         eml_id: email.id,
-  //         eml_nome: email.nome,
-  //         eml_cod_fontes: email.cod_fontes,
-  //         eml_email: email.email,
-  //         eml_sector: email.sector,
-  //         eml_is_active: email.is_active,
-  //         eml_updeted_at: new Date(),
-  //       },
-  //     });
-  //     return data;
-  //   } catch (err) {
-  //     throw new Error(`Error in 'updateEmail' function : ${err}`);
-  //   }
-  // }
-
-  // /**
-  //  * Remove Email from DB
-  //  * @date 02/06/2023 - 08:20:55 AM
-  //  *
-  //  * @public
-  //  * @async
-  //  * @param {string} id
-  //  * @returns {Promise<emails>}
-  //  */
-  // public async removeEmail(id: string): Promise<emails> {
-  //   try {
-  //     return await this.prismaClient.emails.update({
-  //       where: { eml_id: id },
-  //       data: { eml_deleted_at: new Date() },
-  //     });
-  //   } catch (err) {
-  //     throw new Error(`Error in 'removeEmail' function : ${err}`);
-  //   }
-  // }
-
-  // public async getEmalsToSend(): Promise<emails[]> {
-  //   try {
-  //     return await this.prismaClient.emails.findMany({
-  //       where: { eml_deleted_at: null },
-  //     });
-  //   } catch (err) {
-  //     throw new Error(`Error in 'getEmalsToSend' function : ${err}`);
-  //   }
-  // }
+  /**
+   * Get one User from DB
+   * @date 15/07/2023 - 08:20:55 AM
+   *
+   * @public
+   * @async
+   * @param {string} id
+   * @returns {Promise<ReturnUser>}
+   */
+  public async getOneUserById(id: string): Promise<ReturnUser> {
+    try {
+      const result = await this.prismaClient.users.findFirst({
+        where: { code: id },
+        select: userSelect,
+      });
+      if (!result) {
+        return null;
+      }
+      return result;
+    } catch (err) {
+      throw new AppError(`User not found`, HttpStatus.NOT_FOUND);
+    }
+  }
 }

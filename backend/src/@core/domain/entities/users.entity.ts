@@ -2,24 +2,23 @@ import { generateUUID } from '@core/common/utils/uuidGen.util';
 import { Prisma, users } from '@prisma/client';
 
 export type User = {
-  id?: string;
+  _id?: string;
+  code?: string;
   name?: string;
   email?: string;
   password?: string;
   movies_like?: number[];
   created_at?: Date;
-  updated_at?: Date;
-  deleted_at?: Date;
 };
 
 export class UserEntity implements users {
   id: string;
+  code: string;
   name: string;
   email: string;
   password: string;
   movies_like: number[];
   created_at: Date;
-  code: string;
 
   constructor(props: User) {
     this.code = generateUUID();
@@ -43,3 +42,17 @@ export class UserEntity implements users {
     return data;
   }
 }
+
+export const userSelect: Prisma.usersSelect = {
+  code: true,
+  name: true,
+  email: true,
+  movies_like: true,
+};
+
+export type ReturnUser = {
+  code?: string;
+  name?: string;
+  email?: string;
+  movies_like?: number[];
+};
