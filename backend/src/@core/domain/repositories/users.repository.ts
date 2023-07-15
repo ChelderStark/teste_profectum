@@ -8,29 +8,20 @@ export class UsersRepository {
   constructor(private prismaClient: PrismaService) {}
 
   /**
-   * Create a resgister of email in DB
-   * @date 02/06/2023 - 08:20:55 AM
+   * Create a resgister of User in DB
+   * @date 15/07/2023 - 08:20:55 AM
    *
    * @public
    * @async
    * @param {User} user
-   * @param {Promise<emails>}
+   * @returns {Promise<users>}
    */
   public async createUser(user: User): Promise<users> {
     try {
-      const props = new UserEntity(user).props();
-
-      console.log(props);
+      const props = new UserEntity(user).create();
 
       const data = this.prismaClient.users.create({
-        data: {
-          code: props.code,
-          name: props.name,
-          email: props.email,
-          password: props.password,
-          movies_like: props.movies_like,
-          created_at: props.created_at,
-        },
+        data: props,
       });
 
       return data;

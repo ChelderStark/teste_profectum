@@ -10,9 +10,21 @@ datasource db {
 model users {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   code        String
-  created_at  DateTime
-  email       String
-  movies_like Int[]
   name        String
+  email       String
   password    String
+  movies_like Int[]
+  created_at  DateTime
+}
+
+
+model movies {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  code              Int
+  title             String
+  original_language String
+  original_title    String
+  overview          String
+  poster_path       String
+  like_count        Int
 }

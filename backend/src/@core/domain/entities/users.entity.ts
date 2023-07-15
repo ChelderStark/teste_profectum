@@ -1,5 +1,5 @@
 import { generateUUID } from '@core/common/utils/uuidGen.util';
-import { users } from '@prisma/client';
+import { Prisma, users } from '@prisma/client';
 
 export type User = {
   id?: string;
@@ -30,8 +30,8 @@ export class UserEntity implements users {
     this.created_at = new Date();
   }
 
-  props() {
-    return {
+  create() {
+    const data: Prisma.usersCreateInput = {
       code: this.code,
       name: this.name,
       email: this.email,
@@ -39,5 +39,7 @@ export class UserEntity implements users {
       movies_like: this.movies_like,
       created_at: this.created_at,
     };
+
+    return data;
   }
 }
