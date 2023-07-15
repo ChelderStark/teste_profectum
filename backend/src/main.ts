@@ -1,11 +1,23 @@
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import {
+  DocumentBuilder,
+  SwaggerDocumentOptions,
+  SwaggerModule,
+} from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { ErrorExceptionFilter } from '@core/infra/error/filters/exception.filters';
+import { PrismaClienteExceptionFilter } from '@core/infra/error/filters/prisma.filters';
+import { AuthModule } from './app/auth/auth.module';
+import { UsersModule } from './app/users/users.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
+
+  app.useGlobalFilters(new ErrorExceptionFilter());
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new PrismaClienteExceptionFilter(httpAdapter));
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -23,8 +35,12 @@ async function bootstrap() {
     .addTag('movies')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  const options: SwaggerDocumentOptions = {
+    include: [AuthModule, UsersModule],
+  };
+
+  const document = SwaggerModule.createDocument(app, config, options);
+  SwaggerModule.setup('swagger', app, document);
 
   await app.listen(process.env.PORT);
 }

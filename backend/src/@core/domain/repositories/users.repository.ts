@@ -23,18 +23,24 @@ export class UsersRepository {
    * @returns {Promise<ReturnUser>}
    */
   public async createUser(user: User): Promise<ReturnUser> {
-    try {
-      const props = new UserEntity(user).create();
+    const props = new UserEntity(user).create();
 
-      const data = await this.prismaClient.users.create({
-        data: props,
-        select: userSelect,
-      });
+    const emailExists = await this.getOneUserByEmail(user.email);
 
-      return data;
-    } catch (err) {
-      throw new AppError(`Error to try create a User`);
+    if (emailExists) {
+      throw new AppError(`Email already exists`, HttpStatus.CONFLICT);
     }
+
+    const data = await this.prismaClient.users.create({
+      data: props,
+      select: userSelect,
+    });
+
+    if (!data) {
+      throw new AppError(`Error to try create User`);
+    }
+
+    return data;
   }
 
   /**
@@ -79,6 +85,30 @@ export class UsersRepository {
     try {
       const result = await this.prismaClient.users.findFirst({
         where: { code: id },
+        select: userSelect,
+      });
+      if (!result) {
+        return null;
+      }
+      return result;
+    } catch (err) {
+      throw new AppError(`User not found`, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  /**
+   * Get one User from DB by E-mail
+   * @date 15/07/2023 - 08:20:55 AM
+   *
+   * @public
+   * @async
+   * @param {string} email
+   * @returns {Promise<ReturnUser>}
+   */
+  public async getOneUserByEmail(email: string): Promise<ReturnUser> {
+    try {
+      const result = await this.prismaClient.users.findFirst({
+        where: { email: email },
         select: userSelect,
       });
       if (!result) {

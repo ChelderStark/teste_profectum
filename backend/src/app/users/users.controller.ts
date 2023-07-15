@@ -2,12 +2,13 @@ import { Controller, Get, Post, Body, Query, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetListDto } from '@core/common/dto/get-list.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '@core/domain/entities/users.entity';
 import { OutputPayload } from '@core/common/interface/output-payload.interface';
 import { OutputUserDto } from './dto/output-user.dto';
 
 @Controller('api/v1/users')
+@ApiTags('User')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
