@@ -11,6 +11,7 @@ import { UsersService } from '../users/users.service';
 import { AuthRequest } from '../auth/models/AuthRequest';
 import { LikeDto } from './dto/like.dto';
 import { User } from '@core/domain/entities/users.entity';
+import { ReturnMovies } from '@core/domain/entities/movies.entity';
 
 @Injectable()
 export class MoviesService {
@@ -84,5 +85,16 @@ export class MoviesService {
     }
     await this.moviesRepository.updateCountLike(like.code_movie);
     return user;
+  }
+
+  /**
+   * inserts like of movie in user and count +1 like in movie
+   * @date 15/07/2023 - 19:15:08 PM
+   *
+   * @async
+   * @returns {Promise<ReturnMovies>}
+   */
+  async getMoviesByLike(): Promise<ReturnMovies[]> {
+    return await this.moviesRepository.listMoviesByLike();
   }
 }

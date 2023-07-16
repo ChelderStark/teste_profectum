@@ -1,12 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/@core/infra/database/prisma.service';
-import {
-  ReturnUser,
-  User,
-  UserEntity,
-  userSelect,
-} from '../entities/users.entity';
-import { users } from '@prisma/client';
 import { AppError } from '@core/infra/error/app.error';
 import { ExternalMovieDto } from 'src/app/movies/dto/external-movie.dto';
 import {
@@ -35,7 +28,7 @@ export class MoviesRepository {
       original_language: movie.original_language,
       original_title: movie.original_title,
       overview: movie.overview,
-      poster_path: movie.poster_path,
+      poster_path: process.env.PATH_POSTER + movie.poster_path,
       like_count: 0,
     }).create();
 
@@ -50,35 +43,6 @@ export class MoviesRepository {
 
     return data;
   }
-
-  // /**
-  //  * Get Many users from BD
-  //  * @date 15/07/2023 - 08:20:55 AM
-  //  *
-  //  * @public
-  //  * @async
-  //  * @constant {pag} number
-  //  * @constant {qtd} number
-  //  * @constant {search} string
-  //  * @returns {Promise<ReturnUser[]>}
-  //  */
-  // public async getUsers(
-  //   pag: number,
-  //   qtd: number,
-  //   search: string,
-  // ): Promise<ReturnUser[]> {
-  //   try {
-  //     const getPage = (pag - 1 < 0 ? 0 : pag - 1) * qtd;
-  //     return await this.prismaClient.users.findMany({
-  //       skip: getPage,
-  //       take: qtd,
-  //       where: { email: { contains: search, mode: 'insensitive' } },
-  //       select: userSelect,
-  //     });
-  //   } catch (err) {
-  //     throw new Error(`Error to retrieve a list of Users`);
-  //   }
-  // }
 
   /**
    * Get one Movie by ID from DB
@@ -100,7 +64,7 @@ export class MoviesRepository {
       }
       return result;
     } catch (err) {
-      throw new AppError(`User not found`, HttpStatus.NOT_FOUND);
+      throw new AppError(`Error to get movie`, HttpStatus.NOT_FOUND);
     }
   }
 
@@ -131,6 +95,33 @@ export class MoviesRepository {
     } catch (err) {
       throw new AppError(
         `Error to try increment like count`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
+
+  /**
+   * Retrieve a list of movies by like
+   * @date 15/07/2023 - 08:20:55 AM
+   *
+   * @public
+   * @async
+   * @returns {Promise<ReturnMovies>}
+   */
+  public async listMoviesByLike(): Promise<ReturnMovies[]> {
+    try {
+      const result = await this.prismaClient.movies.findMany({
+        orderBy: { like_count: 'desc' },
+        select: movieSelect,
+      });
+
+      if (!result) {
+        return null;
+      }
+      return result;
+    } catch (err) {
+      throw new AppError(
+        `Error to retrieve a list of Movies`,
         HttpStatus.NOT_FOUND,
       );
     }

@@ -28,7 +28,7 @@ export class MoviesController {
     description: 'User Create error',
   })
   async chargeExternalMovies(): Promise<ExternalMovieDto[]> {
-    return this.moviesService.getMoviesFromTMDB();
+    return await this.moviesService.getMoviesFromTMDB();
   }
 
   @Post()
@@ -44,5 +44,20 @@ export class MoviesController {
   })
   async movieLike(@Body() likeDto: LikeDto, @Request() req: AuthRequest) {
     return await this.moviesService.likeThisMovie(likeDto, req);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Inserts movie_like to user' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Like Inserted',
+    type: ExternalMovieDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Like Insert error',
+  })
+  async listMoviesByLike(@Request() req: AuthRequest) {
+    return await this.moviesService.getMoviesByLike();
   }
 }
