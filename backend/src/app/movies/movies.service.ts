@@ -26,7 +26,7 @@ export class MoviesService {
   }
 
   /**
-   * Charges a list of Movies from TMDB external APÌ
+   * Scheduler for charges a list of Movies from TMDB external APÌ
    * @date 15/07/2023 - 19:15:08 PM
    *
    * @async
