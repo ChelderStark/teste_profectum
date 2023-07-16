@@ -134,22 +134,23 @@ export class UsersRepository {
     email: string,
     movie: number,
   ): Promise<ReturnUser> {
-    try {
-      const user = await this.prismaClient.users.findFirst({
-        where: { email: email },
-      });
-      const likes = user.movies_like;
-      likes.push(movie);
+    const user = await this.prismaClient.users.findFirst({
+      where: { email: email },
+    });
+    const likes = user.movies_like;
+    const movieExist = likes.filter((lik) => lik == movie);
 
-      const data = await this.prismaClient.users.update({
-        where: { id: user.id },
-        data: { movies_like: likes },
-        select: userSelect,
-      });
-
-      return data;
-    } catch (err) {
-      throw new AppError(`Error to try Insert Like to Movie`);
+    if (movieExist.length > 0) {
+      throw new AppError(`Movie already add to list of this user`);
     }
+
+    likes.push(movie);
+    const data = await this.prismaClient.users.update({
+      where: { id: user.id },
+      data: { movies_like: likes },
+      select: userSelect,
+    });
+
+    return data;
   }
 }

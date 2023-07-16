@@ -7,7 +7,6 @@ import {
   Request,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
-import { IsPublic } from '../auth/decorators/is-public.decorator';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ExternalMovieDto } from './dto/external-movie.dto';
 import { AuthRequest } from '../auth/models/AuthRequest';

@@ -10,6 +10,7 @@ import { Cron } from '@nestjs/schedule';
 import { UsersService } from '../users/users.service';
 import { AuthRequest } from '../auth/models/AuthRequest';
 import { LikeDto } from './dto/like.dto';
+import { User } from '@core/domain/entities/users.entity';
 
 @Injectable()
 export class MoviesService {
@@ -66,10 +67,22 @@ export class MoviesService {
     return resultMovies;
   }
 
-  async likeThisMovie(like: LikeDto, req: AuthRequest) {
-    return await this.usersService.updateMoviesLike(
+  /**
+   * inserts like of movie in user and count +1 like in movie
+   * @date 15/07/2023 - 19:15:08 PM
+   *
+   * @async
+   * @returns {Promise<User>}
+   */
+  async likeThisMovie(like: LikeDto, req: AuthRequest): Promise<User> {
+    const user = await this.usersService.updateMoviesLike(
       req.user.email,
       like.code_movie,
     );
+    if (!user) {
+      throw new AppError(`Error to try inserts like to User`);
+    }
+    await this.moviesRepository.updateCountLike(like.code_movie);
+    return user;
   }
 }

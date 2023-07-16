@@ -104,27 +104,35 @@ export class MoviesRepository {
     }
   }
 
-  // /**
-  //  * Get one User from DB by E-mail
-  //  * @date 15/07/2023 - 08:20:55 AM
-  //  *
-  //  * @public
-  //  * @async
-  //  * @param {string} email
-  //  * @returns {Promise<ReturnUser>}
-  //  */
-  // public async getOneUserByEmail(email: string): Promise<ReturnUser> {
-  //   try {
-  //     const result = await this.prismaClient.users.findFirst({
-  //       where: { email: email },
-  //       select: userSelect,
-  //     });
-  //     if (!result) {
-  //       return null;
-  //     }
-  //     return result;
-  //   } catch (err) {
-  //     throw new AppError(`User not found`, HttpStatus.NOT_FOUND);
-  //   }
-  // }
+  /**
+   * increment movie likes count
+   * @date 3/29/2023 - 9:15:08 AM
+   *
+   * @public
+   * @async
+   * @param {number} movie
+   * @returns {Promise<ReturnMovies>}
+   */
+  public async updateCountLike(movie: number): Promise<ReturnMovies> {
+    try {
+      const movieResult = await this.prismaClient.movies.findFirst({
+        where: { code: movie },
+      });
+
+      const countLike = movieResult.like_count + 1;
+
+      const data = await this.prismaClient.movies.update({
+        where: { id: movieResult.id },
+        data: { like_count: countLike },
+        select: movieSelect,
+      });
+
+      return data;
+    } catch (err) {
+      throw new AppError(
+        `Error to try increment like count`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
 }
