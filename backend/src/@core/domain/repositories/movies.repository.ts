@@ -28,6 +28,7 @@ export class MoviesRepository {
       original_language: movie.original_language,
       original_title: movie.original_title,
       overview: movie.overview,
+      popularity: movie.popularity,
       poster_path: process.env.PATH_POSTER + movie.poster_path,
       like_count: 0,
     }).create();
@@ -108,10 +109,49 @@ export class MoviesRepository {
    * @async
    * @returns {Promise<ReturnMovies>}
    */
-  public async listMoviesByLike(): Promise<ReturnMovies[]> {
+  public async listMoviesByLike(
+    pag: number,
+    qtd: number,
+  ): Promise<ReturnMovies[]> {
     try {
+      const getPage = (pag - 1 < 0 ? 0 : pag - 1) * qtd;
       const result = await this.prismaClient.movies.findMany({
+        skip: getPage,
+        take: qtd,
         orderBy: { like_count: 'desc' },
+        select: movieSelect,
+      });
+
+      if (!result) {
+        return null;
+      }
+      return result;
+    } catch (err) {
+      throw new AppError(
+        `Error to retrieve a list of Movies`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
+
+  /**
+   * Retrieve a list of all movies
+   * @date 15/07/2023 - 08:20:55 AM
+   *
+   * @public
+   * @async
+   * @returns {Promise<ReturnMovies>}
+   */
+  public async listAllMovies(
+    pag: number,
+    qtd: number,
+  ): Promise<ReturnMovies[]> {
+    try {
+      const getPage = (pag - 1 < 0 ? 0 : pag - 1) * qtd;
+      const result = await this.prismaClient.movies.findMany({
+        skip: getPage,
+        take: qtd,
+        orderBy: { popularity: 'desc' },
         select: movieSelect,
       });
 

@@ -1,4 +1,3 @@
-import { generateUUID } from '@core/common/utils/uuidGen.util';
 import { Prisma, movies } from '@prisma/client';
 
 export type Movies = {
@@ -8,6 +7,7 @@ export type Movies = {
   original_language?: string;
   original_title?: string;
   overview?: string;
+  popularity?: number;
   poster_path?: string;
   like_count?: number;
 };
@@ -19,6 +19,7 @@ export class MoviesEntity implements movies {
   original_language: string;
   original_title: string;
   overview: string;
+  popularity: number;
   poster_path: string;
   like_count: number;
   created_at: Date;
@@ -29,6 +30,7 @@ export class MoviesEntity implements movies {
     this.original_language = props.original_language;
     this.original_title = props.original_title;
     this.overview = props.overview;
+    this.popularity = props.popularity;
     this.poster_path = props.poster_path;
     this.like_count = props.like_count;
     this.created_at = new Date();
@@ -41,6 +43,7 @@ export class MoviesEntity implements movies {
       original_language: this.original_language,
       original_title: this.original_title,
       overview: this.overview,
+      popularity: this.popularity,
       poster_path: this.poster_path,
       like_count: this.like_count,
       created_at: this.created_at,
@@ -56,6 +59,7 @@ export const movieSelect: Prisma.moviesSelect = {
   original_language: true,
   original_title: true,
   overview: true,
+  popularity: true,
   poster_path: true,
   like_count: true,
 };
@@ -66,6 +70,7 @@ export type ReturnMovies = {
   original_language?: string;
   original_title?: string;
   overview?: string;
+  popularity?: number;
   poster_path?: string;
   like_count?: number;
 };

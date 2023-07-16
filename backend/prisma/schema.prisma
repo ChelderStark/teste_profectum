@@ -25,6 +25,7 @@ model movies {
   original_language String
   original_title    String
   overview          String
+  popularity        Int
   poster_path       String
   like_count        Int
   created_at        DateTime

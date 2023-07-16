@@ -54,8 +54,8 @@ describe('UsersService', () => {
     });
 
     const user = await userService.create(createData);
-    console.log(user);
 
+    expect(user).toBeTruthy();
     expect(user.code).toEqual(uuid);
     expect(user.name).toEqual(createData.name);
     expect(user.email).toEqual(createData.email);

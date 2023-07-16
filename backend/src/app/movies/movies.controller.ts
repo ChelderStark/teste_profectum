@@ -4,6 +4,7 @@ import {
   Get,
   HttpStatus,
   Post,
+  Query,
   Request,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
@@ -11,6 +12,8 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ExternalMovieDto } from './dto/external-movie.dto';
 import { AuthRequest } from '../auth/models/AuthRequest';
 import { LikeDto } from './dto/like.dto';
+import { GetListDto } from '@core/common/dto/get-list.dto';
+import { OutputMovie } from './dto/output-movie.dto';
 
 @Controller('api/v1/movies')
 export class MoviesController {
@@ -46,18 +49,36 @@ export class MoviesController {
     return await this.moviesService.likeThisMovie(likeDto, req);
   }
 
-  @Get()
-  @ApiOperation({ summary: 'Inserts movie_like to user' })
+  @Get('likes')
+  @ApiOperation({ summary: 'List most like movies' })
   @ApiResponse({
     status: HttpStatus.CREATED,
-    description: 'Like Inserted',
+    description: 'list of movie retrieve',
     type: ExternalMovieDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Like Insert error',
+    description: 'Movies get list error.',
   })
-  async listMoviesByLike(@Request() req: AuthRequest) {
-    return await this.moviesService.getMoviesByLike();
+  async listMoviesByLike(
+    @Query() query: GetListDto,
+    @Request() req: AuthRequest,
+  ) {
+    return await this.moviesService.getMoviesByLike(query, req);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'List of all movies' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'list of movie retrieve',
+    type: OutputMovie,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Movies get list error.',
+  })
+  async getAllMovies(@Query() query: GetListDto, @Request() req: AuthRequest) {
+    return await this.moviesService.getAllMovies(query, req);
   }
 }
