@@ -1,0 +1,39 @@
+<div class="screen-style">
+  <mat-card class="card-style">
+    <h3 class="title-card">Login</h3>
+    <form class="form-style" [formGroup]="loginForm">
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Senha</mat-label>
+        <input
+          matInput
+          formControlName="senha"
+          [type]="hide ? 'password' : 'text'"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+    <div class="btn-style">
+      <button mat-raised-button (click)="Cadastro()">Novo Usuário</button>
+      <button
+        mat-raised-button
+        (click)="Login()"
+        [disabled]="loginForm.invalid"
+        color="primary"
+      >
+        Login
+      </button>
+    </div>
+  </mat-card>
+</div>
