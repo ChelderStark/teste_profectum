@@ -1,0 +1,74 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.green-snackbar div {
+  padding-right: 0;
+  background: rgb(18, 133, 60);
+  color: white;
+}
+
+.green-snackbar button {
+  background: rgb(18, 133, 60);
+  color: white;
+  border: none;
+}
+
+.green-snackbar button .mdc-button__label {
+  color: white;
+  border: none;
+}
+
+.red-snackbar div {
+  padding-right: 0;
+  background: #f44336;
+  color: white;
+}
+.red-snackbar button {
+  background-color: #f44336;
+  color: white !important;
+  border: none;
+}
+
+.red-snackbar button .mdc-button__label {
+  color: white;
+  border: none;
+}
+
+.title-card {
+  text-align: center;
+  font-size: large;
+  font-weight: bolder;
+  margin-top: 1rem;
+}
+.card-style {
+  width: 75%;
+  text-align: center;
+  margin: auto;
+  padding: 15px 2%;
+}
+.btn-style {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+.screen-style {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.form-style {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
