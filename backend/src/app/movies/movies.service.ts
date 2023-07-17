@@ -56,6 +56,8 @@ export class MoviesService {
     const externalMovies: ExternalMovieDto[] = data.results;
 
     const resultMovies = [];
+    console.log(externalMovies);
+
     this.logger.log('Initialize Updates of External API TMDB.');
     for (const movie of externalMovies) {
       const is_exists = await this.moviesRepository.getOneMovieById(movie.id);
