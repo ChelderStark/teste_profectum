@@ -8,12 +8,12 @@ import {
 } from 'class-validator';
 
 export class GetListDto {
-  @ApiProperty({ default: '1' })
+  @ApiProperty({ default: '1', description: 'Number of Actual page' })
   @IsNumberString()
   @IsNotEmpty()
   page: string;
 
-  @ApiProperty({ default: '25' })
+  @ApiProperty({ default: '10', description: 'Number of itens per page' })
   @IsNumberString()
   @IsNotEmpty()
   itemPerPage: string;

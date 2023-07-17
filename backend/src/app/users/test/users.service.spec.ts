@@ -126,7 +126,6 @@ describe('UsersService', () => {
     });
 
     const user = await userService.updateMoviesLike(email, movieCode);
-    console.log(user.movies_like);
 
     expect(user.email).toEqual(email);
     expect(typeof user.movies_like).toEqual('object');

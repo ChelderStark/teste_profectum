@@ -10,6 +10,7 @@ import { ErrorExceptionFilter } from '@core/infra/error/filters/exception.filter
 import { PrismaClienteExceptionFilter } from '@core/infra/error/filters/prisma.filters';
 import { AuthModule } from './app/auth/auth.module';
 import { UsersModule } from './app/users/users.module';
+import { MoviesModule } from './app/movies/movies.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -30,13 +31,16 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Movies Likes')
-    .setDescription('This app is a test made for Profectum')
-    .setVersion('1.0')
-    .addTag('movies')
+    .setDescription(
+      'This app is a test made for Profectum. For routes to work you need to perform authentication first ',
+    )
+    .setVersion('0.0.1')
+    .addBearerAuth()
+    .addSecurityRequirements('bearer')
     .build();
 
   const options: SwaggerDocumentOptions = {
-    include: [AuthModule, UsersModule],
+    include: [AuthModule, UsersModule, MoviesModule],
   };
 
   const document = SwaggerModule.createDocument(app, config, options);

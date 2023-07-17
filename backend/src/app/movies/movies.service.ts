@@ -56,7 +56,6 @@ export class MoviesService {
     const externalMovies: ExternalMovieDto[] = data.results;
 
     const resultMovies = [];
-    console.log(externalMovies);
 
     this.logger.log('Initialize Updates of External API TMDB.');
     for (const movie of externalMovies) {
@@ -99,12 +98,12 @@ export class MoviesService {
    * @async
    * @param {GetListDto} query
    * @param {AuthRequest} req
-   * @returns {Promise<ReturnMovies>}
+   * @returns {Promise<OutputMovie>}
    */
   async getMoviesByLike(
     query: GetListDto,
     req: AuthRequest,
-  ): Promise<ReturnMovies[]> {
+  ): Promise<OutputMovie[]> {
     const movies = await this.moviesRepository.listMoviesByLike(
       query.getPage,
       query.getItemPerPage,
