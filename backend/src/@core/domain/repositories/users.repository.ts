@@ -119,4 +119,38 @@ export class UsersRepository {
       throw new AppError(`User not found`, HttpStatus.NOT_FOUND);
     }
   }
+
+  /**
+   * Insert likes of movies in user
+   * @date 3/29/2023 - 9:15:08 AM
+   *
+   * @public
+   * @async
+   * @param {string} email
+   * @param {number} movie
+   * @returns {Promise<ReturnUser>}
+   */
+  public async updateMovieLike(
+    email: string,
+    movie: number,
+  ): Promise<ReturnUser> {
+    const user = await this.prismaClient.users.findFirst({
+      where: { email: email },
+    });
+    const likes = user.movies_like;
+    const movieExist = likes.filter((lik) => lik == movie);
+
+    if (movieExist.length > 0) {
+      throw new AppError(`Movie already add to list of this user`);
+    }
+
+    likes.push(movie);
+    const data = await this.prismaClient.users.update({
+      where: { id: user.id },
+      data: { movies_like: likes },
+      select: userSelect,
+    });
+
+    return data;
+  }
 }
