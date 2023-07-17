@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { LoginService } from 'src/app/shered/services/login/login.service';
+import { LoginService } from 'src/app/shared/services/login/login.service';
 
 @Component({
   selector: 'app-login',

@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { CadastroService } from 'src/app/shered/services/cadastro/cadastro.service';
+import { CadastroService } from 'src/app/shared/services/cadastro/cadastro.service';
 
 @Component({
   selector: 'app-cadastro',

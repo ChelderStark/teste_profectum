@@ -103,7 +103,7 @@ export class MoviesService {
     query: GetListDto,
     req: AuthRequest,
   ): Promise<ReturnMovies[]> {
-    const movies = await this.moviesRepository.listAllMovies(
+    const movies = await this.moviesRepository.listMoviesByLike(
       query.getPage,
       query.getItemPerPage,
     );

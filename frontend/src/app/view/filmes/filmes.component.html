@@ -10,6 +10,19 @@
   </div>
 </div>
 
+<div class="ordenar-Style">
+  <span class="text-style">
+    {{ ordenarLike ? "Mais Curtidos" : "Top 10" }}
+  </span>
+  <mat-slide-toggle
+    [(ngModel)]="ordenarLike"
+    color="primary"
+    (click)="ordenar()"
+  ></mat-slide-toggle>
+</div>
+<br/>
+<br/>
+
 <div class="grid-style">
   <div class="grid">
     <div class="card-filme" *ngFor="let filme of filmes">

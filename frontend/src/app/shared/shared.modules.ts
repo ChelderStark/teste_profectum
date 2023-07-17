@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const sharedComponents = [
   MatCardModule,
@@ -21,6 +22,7 @@ const sharedComponents = [
   MatListModule,
   MatGridListModule,
   MatMenuModule,
+  MatSlideToggleModule,
 ];
 
 @NgModule({
