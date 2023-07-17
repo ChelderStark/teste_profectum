@@ -1,0 +1,71 @@
+.navbar {
+  background-color: #390039;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 15px 30px;
+  margin-bottom: 50px;
+}
+.title {
+  flex: 1;
+  text-align: center;
+  color: white;
+  font-size: large;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.text-white {
+  color: white;
+  font-weight: bolder;
+}
+.grid-style {
+  margin-top: 25px;
+  width: 80%;
+  margin: auto;
+}
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 25px;
+}
+.card-filme {
+  position: relative;
+  width: 250px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px 4px rgba(0, 0, 0, 0.1);
+}
+.card-filme img {
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+.card-filme div {
+  padding: 10px;
+}
+.card-filme div h3 {
+  font-weight: bold;
+}
+.btn-like {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background-color: rgba(0, 0, 0, 0.4);
+  font-size: 20px;
+  color: rgb(0, 255, 221);
+}
+.btn-like mat-icon {
+  color: #929292;
+}
+.btn-ativo mat-icon {
+  color: #e00;
+}
+.ordenar-Style {
+  width: 80%;
+  display: flex;
+  justify-content: end;
+}
+.text-style {
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 20px;
+}

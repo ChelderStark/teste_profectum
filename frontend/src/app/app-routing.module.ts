@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-// Import Componentes
 import { FilmesComponent } from './view/filmes/filmes.component';
 import { LoginComponent } from './view/login/login.component';
 import { CadastroComponent } from './view/cadastro/cadastro.component';
 
-// Import Gaurds
 import { AuthGuard } from './shared/guards/can-active.guard';
 
 const routes: Routes = [

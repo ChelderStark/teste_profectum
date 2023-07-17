@@ -1,0 +1,45 @@
+<div class="navbar">
+  <div class="title">Filmes</div>
+  <div>
+    <button mat-button [matMenuTriggerFor]="menu">
+      <span class="text-white">{{ usuario.nome }}</span>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="sairConta()">Sair</button>
+    </mat-menu>
+  </div>
+</div>
+
+<div class="ordenar-Style">
+  <span class="text-style">
+    {{ ordenarLike ? "Mais Curtidos" : "Top 10" }}
+  </span>
+  <mat-slide-toggle
+    [(ngModel)]="ordenarLike"
+    color="primary"
+    (click)="ordenar()"
+  ></mat-slide-toggle>
+</div>
+<br/>
+<br/>
+
+<div class="grid-style">
+  <div class="grid">
+    <div class="card-filme" *ngFor="let filme of filmes">
+      <img [src]="filme.poster_path" alt="Poster" />
+      <button
+        mat-fab
+        extended
+        class="btn-like"
+        [ngClass]="filme.like ? 'btn-ativo' : ''"
+        (click)="votar(filme)"
+      >
+        <mat-icon>favorite</mat-icon>
+        {{ filme.like_count }}
+      </button>
+      <div>
+        <h3>{{ filme.title }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
