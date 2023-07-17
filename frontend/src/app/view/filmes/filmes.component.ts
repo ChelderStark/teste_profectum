@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { FilmeService } from 'src/app/shared/services/filme/filme.service';
+import { FilmeService } from 'src/app/shered/services/filme/filme.service';
 
 @Component({
   selector: 'app-filmes',
