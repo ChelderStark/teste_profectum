@@ -3,12 +3,7 @@ import { MoviesService } from '../movies.service';
 import { HttpService } from '@nestjs/axios';
 import { MoviesRepository } from '@core/domain/repositories';
 import { UsersService } from 'src/app/users/users.service';
-import { of } from 'rxjs';
-import { AxiosResponse } from 'axios';
-import { ExternalMovieDto } from '../dto/external-movie.dto';
-import { INestApplication } from '@nestjs/common';
 import { GetListDto } from '@core/common/dto/get-list.dto';
-import { generateUUID } from '@core/common/utils/uuidGen.util';
 import { AuthRequest } from 'src/app/auth/models/AuthRequest';
 import { ReturnUser } from '@core/domain/entities/users.entity';
 
