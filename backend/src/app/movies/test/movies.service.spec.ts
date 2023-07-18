@@ -13,7 +13,6 @@ import { AuthRequest } from 'src/app/auth/models/AuthRequest';
 import { ReturnUser } from '@core/domain/entities/users.entity';
 
 describe('MoviesService', () => {
-  let app: INestApplication;
   let moviesService: MoviesService;
   let httpService: HttpService;
   let moviesRepository: MoviesRepository;
@@ -63,28 +62,6 @@ describe('MoviesService', () => {
   it('should be defined', () => {
     expect(moviesService).toBeDefined();
   });
-
-  // it('should gets a list of movies from external API', async () => {
-  //   const result: AxiosResponse = {
-  //     data: {},
-  //     status: 200,
-  //     statusText: 'OK',
-  //     headers: { Authorization: `Bearer ${process.env.TOKEN_TMDB}` },
-  //     config: {
-  //       baseURL: process.env.PATH_TMDB,
-  //       headers: undefined,
-  //       params: {
-  //         language: 'pt-BR',
-  //         page: '1',
-  //         sort_by: 'popularity.desc',
-  //       },
-  //     },
-  //   };
-
-  //   jest.spyOn(httpService, 'get').mockReturnValue(of(result));
-
-  //   const movies = await moviesService.getMoviesFromTMDB();
-  // });
 
   it('should be retrieve a list of movies by popularity', async () => {
     const query = {
