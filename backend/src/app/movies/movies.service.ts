@@ -54,8 +54,6 @@ export class MoviesService {
     );
 
     const externalMovies: ExternalMovieDto[] = data.results;
-    console.log(data.results);
-
     const resultMovies = [];
 
     this.logger.log('Initialize Updates of External API TMDB.');
