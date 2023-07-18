@@ -70,19 +70,19 @@ export class ExternalMovieDto {
 
   @IsBoolean()
   @ApiProperty({ description: 'If this is Video', default: true })
-  video: boolean;
+  video?: boolean;
 
   @IsDecimal()
   @ApiProperty({
     description: 'Number of average votes in this movie',
-    default: 8.1,
+    default: 0.01,
   })
-  vote_average: Decimal;
+  vote_average?: Decimal;
 
   @IsNumber()
   @ApiProperty({
     description: 'Number of vote in this movie',
     default: 2345,
   })
-  vote_count: number;
+  vote_count?: number;
 }

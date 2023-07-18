@@ -54,6 +54,7 @@ export class MoviesService {
     );
 
     const externalMovies: ExternalMovieDto[] = data.results;
+    console.log(data.results);
 
     const resultMovies = [];
 
