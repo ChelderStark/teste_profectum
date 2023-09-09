@@ -7,7 +7,6 @@
   },
   "modulePaths": ["<rootDir>/src"],
   "moduleNameMapper": {
-    "@core/(.*)": "<rootDir>/src/@core/$1",
     "src/(.*)": "<rootDir>/src/$1"
   }
 }

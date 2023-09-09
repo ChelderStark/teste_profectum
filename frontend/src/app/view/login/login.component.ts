@@ -30,6 +30,7 @@ export class LoginComponent {
   Cadastro() {
     this.router.navigateByUrl('/cadastro');
   }
+
   Login() {
     const model = this.criarModelo();
     this.loginService.login(model).subscribe({
@@ -40,11 +41,20 @@ export class LoginComponent {
         this.router.navigateByUrl('/filmes');
       },
       error: (e) => {
-        this.messageAlert.open(e.error.message[0], 'Fechar', {
-          duration: 5000,
-          horizontalPosition: 'right',
-          panelClass: ['red-snackbar'],
-        });
+        console.log(e.status);
+        if(e.status == 401){
+          this.messageAlert.open(`Login ou Senha incorretos!`, 'Fechar', {
+            duration: 5000,
+            horizontalPosition: 'right',
+            panelClass: ['red-snackbar'],
+          });
+        }else {
+          this.messageAlert.open(`Falha ao tentar logar!`, 'Fechar', {
+            duration: 5000,
+            horizontalPosition: 'right',
+            panelClass: ['red-snackbar'],
+          });
+        }
       },
     });
   }

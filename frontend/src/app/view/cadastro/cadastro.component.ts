@@ -48,7 +48,7 @@ export class CadastroComponent implements OnInit {
         this.router.navigateByUrl('/login');
       },
       error: (e) => {
-        this.messageAlert.open(e.error.message[0], 'Fechar', {
+        this.messageAlert.open(`Error ao Cadastrar usuário ${e.error.message[0]}`, 'Fechar', {
           duration: 5000,
           horizontalPosition: 'right',
           panelClass: ['red-snackbar'],
